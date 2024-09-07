@@ -57,9 +57,9 @@
 
             // Agregar ":00" para incluir los segundos
             if (!taskDate_Expire.includes("T")) {
-                taskDate_Expire += ":00";
+                taskDate_Expire += ":00Z";
             } else if (taskDate_Expire.length === 16) {  // Si tiene formato 'YYYY-MM-DDTHH:MM'
-                taskDate_Expire += ":00";
+                taskDate_Expire += ":00Z";
             }
 
             // Obtener el token almacenado en localStorage
