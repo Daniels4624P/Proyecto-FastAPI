@@ -71,7 +71,7 @@ async def actualizar_tarea(id: str, task: Task, current_user: User = Depends(get
     task_db = db_tasks.tasks.find_one({"_id": ObjectId(id)})
     if not task_db:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="La tarea no existe")
-    if current_user.role in ["admin", "editor"] or (current_user.role == "user" and task_db["owner": current_user.username]):
+    if current_user.role in ["admin", "editor"] or (current_user.role == "user" and task_db["owner"] == current_user.username):
         db_tasks.tasks.update_one({"_id": ObjectId(id)},{"$set": task.dict(exclude={"id","owner"})})
         updated_task = db_tasks.tasks.find_one({"_id": ObjectId(id)})
         return task_schema(updated_task)
