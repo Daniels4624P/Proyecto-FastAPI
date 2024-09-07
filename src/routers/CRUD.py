@@ -5,7 +5,7 @@ from db.models.models import Task, User, TASK_STATES
 from db.schemas.schemas import user_schema,users_schema,task_schema,tasks_schema
 from routers.autenticacion import get_current_user
 from email.message import EmailMessage
-import smtplib
+from smtplib import SMTP
 from fastapi.templating import Jinja2Templates
 from templates.templates import templates
 
@@ -51,20 +51,20 @@ async def crear_tarea(task: Task, current_user: User = Depends(get_current_user)
     if not recipient_email:
         raise HTTPException(status_code=404, detail="Correo electrónico del usuario no encontrado")
     msg = EmailMessage()
-    msg.set_content(f"Se pudo crear correctamente su tarea: {tarea["task"]}")
+    msg.set_content(f'Se pudo crear correctamente su tarea: {tarea["task"]}')
     msg["subject"] = "Creacion de Tarea en su Task Manager"
     msg["to"] = recipient_email
     user = "gola2010sa@gmail.com"
     msg["from"] = user
     password = "yvammjotufcmquai"
     try:
-        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server = SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login(user, password)
         server.send_message(msg)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al enviar el correo: {e}")
-    return f"tarea creada y correo enviado, tarea: {tarea["task"]}"
+    return f'tarea creada y correo enviado, tarea: {tarea["task"]}'
 
 @router.put("/actualizar_tarea/{id}")
 async def actualizar_tarea(id: str, task: Task, current_user: User = Depends(get_current_user)):
