@@ -130,3 +130,10 @@ async def read_users_me(current_user: UserMostrar = Depends(get_current_user)):
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="El usuario no funciona")
     return user
+
+@router.delete("/delete/user")
+async def delete_user(current_user: User = Depends(get_current_user)):
+    found = db_users.users_proyect.find_one_and_delete({"username": current_user.username})
+    if not found:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="No se encontro el usuario")
+    return "Se ha eliminado correctamente el usuario"
