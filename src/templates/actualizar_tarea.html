@@ -33,15 +33,15 @@
 
     <div id="task-result"></div>
 
-    <h2 class="barra_lateral_cuenta"><a href="https://proyect-task-manager2.onrender.com/users/me/page">Cuenta<span id="UsernameTitle"></span></a></h2>
+    <h2 class="barra_lateral_cuenta"><a href="https://proyecto-fastapi-y9vw.onrender.com/users/me/page">Cuenta<span id="UsernameTitle"></span></a></h2>
 
-    <p class="barra_lateral_tareas"><a href="https://proyect-task-manager2.onrender.com/tareas/page">Mis Tareas</a></p>
+    <p class="barra_lateral_tareas"><a href="https://proyecto-fastapi-y9vw.onrender.com/tareas/page">Mis Tareas</a></p>
 
-    <p class="barra_lateral_tarea"><a href="https://proyect-task-manager2.onrender.com/tarea/page">Buscar Tarea</a></p>
+    <p class="barra_lateral_tarea"><a href="https://proyecto-fastapi-y9vw.onrender.com/tarea/page">Buscar Tarea</a></p>
 
-    <p class="barra_lateral_crear_tarea"><a href="https://proyect-task-manager2.onrender.com/crear_tarea/page">Crear Tarea</a></p>
+    <p class="barra_lateral_crear_tarea"><a href="https://proyecto-fastapi-y9vw.onrender.com/crear_tarea/page">Crear Tarea</a></p>
             
-    <p class="barra_lateral_eliminar_tarea"><a href="https://proyect-task-manager2.onrender.com/eliminar_tarea/page">Eliminar Tarea</a></p>
+    <p class="barra_lateral_eliminar_tarea"><a href="https://proyecto-fastapi-y9vw.onrender.com/eliminar_tarea/page">Eliminar Tarea</a></p>
 
     <script>
         const form = document.getElementById("update-task-form");
@@ -54,6 +54,13 @@
             const taskDescription = document.getElementById("description").value;
             const taskDate_Expire = document.getElementById("date_expire").value;
             const taskState = document.getElementById("state").value;
+
+            // Agregar ":00" para incluir los segundos
+            if (!taskDate_Expire.includes("T")) {
+                taskDate_Expire += ":00";
+            } else if (taskDate_Expire.length === 16) {  // Si tiene formato 'YYYY-MM-DDTHH:MM'
+                taskDate_Expire += ":00";
+            }
 
             // Obtener el token almacenado en localStorage
             const token = localStorage.getItem("token");
