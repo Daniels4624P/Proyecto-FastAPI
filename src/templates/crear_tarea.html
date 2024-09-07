@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Tarea</title>
+    <link rel="stylesheet" href="/static/styles_crear.css">
+</head>
+<body>
+    <h1>Crear Nueva Tarea</h1>
+    <form id="create-task-form">
+        <label for="task">Nombre de la tarea:</label><br>
+        <input type="text" id="task" name="task" required><br><br>
+
+        <label for="description">Descripcion de la tarea:</label><br>
+        <input type="text" id="description" name="description" required><br><br>
+
+        <label for="date_expire">Fecha de expiracion:</label><br>
+        <input type="datetime-local" value="2024-09-06T01:41:43.906Z" min="2024-09-06T01:41:43.906Z" max="2030-09-06T01:41:43.906Z" id="date_expire" name="date_expire" required><br><br>
+
+        <label for="state">Estado de la tarea:</label><br>
+        <select id="state" name="state" required>
+            <option value="pendiente">Pendiente</option>
+            <option value="en progreso">En progreso</option>
+            <option value="completada">Completada</option>
+        </select><br><br>
+
+        <button type="submit">Crear Tarea</button>
+    </form>
+
+    <div id="task-result"></div>
+
+    <h2 class="barra_lateral_cuenta"><a href="https://proyect-task-manager2.onrender.com/users/me/page">Cuenta<span id="UsernameTitle"></span></a></h2>
+
+    <p class="barra_lateral_tareas"><a href="https://proyect-task-manager2.onrender.com/tareas/page">Mis Tareas</a></p>
+
+    <p class="barra_lateral_tarea"><a href="https://proyect-task-manager2.onrender.com/tarea/page">Buscar Tarea</a></p>
+
+    <p class="barra_lateral_actualizar_tarea"><a href="https://proyect-task-manager2.onrender.com/actualizar_tarea/page">Actualizar Tarea</a></p>
+            
+    <p class="barra_lateral_eliminar_tarea"><a href="https://proyect-task-manager2.onrender.com/eliminar_tarea/page">Eliminar Tarea</a></p>
+
+    <script>
+        const form = document.getElementById("create-task-form");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const taskName = document.getElementById("task").value;
+            const taskDescription = document.getElementById("description").value;
+            const taskDate_Expire = document.getElementById("date_expire").value;
+            const taskState = document.getElementById("state").value;
+
+            // Obtener el token almacenado en localStorage
+            const token = localStorage.getItem("token");
+
+            // Si no hay token, redirigir al login
+            if (!token) {
+                alert("No estás autenticado. Redirigiendo al login.");
+                window.location.href = "/login";
+            } else {
+                // Hacer la solicitud POST a /crear_tarea
+                const response = await fetch("/crear_tarea", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + token,  // Enviar el token JWT en el encabezado
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "task": taskName,
+                        "description": taskDescription,
+                        "date_expire": taskDate_Expire,
+                        "state": taskState
+                    })
+                });
+
+                const taskResultDiv = document.getElementById("task-result");
+
+                if (response.ok) {
+                    const data = await response.json();
+                    taskResultDiv.innerHTML = `<p>Tarea creada exitosamente: ${data}</p>`;
+                } else {
+                    const errorData = await response.json();
+                    taskResultDiv.innerHTML = `<p>Error al crear la tarea: ${JSON.stringify(errorData)}</p>`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

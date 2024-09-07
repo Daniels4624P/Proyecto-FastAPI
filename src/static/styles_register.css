@@ -1,0 +1,55 @@
+body {
+    text-align: center;
+    background-color: azure;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    text-align: center;
+}
+
+.task-list {
+    background-color: aliceblue;
+    text-align: center;
+}
+
+form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+input[type="text"] {
+    width: 100%;             /* Abarca el 100% del ancho del contenedor */
+    padding: 10px;           /* Espacio interno dentro del campo */
+    margin-bottom: 15px;     /* Espacio entre los inputs */
+    border: 1px solid #ccc;  /* Borde gris */
+    border-radius: 4px;      /* Bordes redondeados */
+    box-sizing: border-box;  /* Incluir el padding en el cálculo del ancho */
+    font-size: 16px;         /* Tamaño de texto */
+}
+
+button {
+    background-color: #007bff;  /* Color de fondo */
+    color: white;               /* Color del texto */
+    padding: 10px 20px;         /* Relleno alrededor del texto */
+    border: none;               /* Sin bordes */
+    border-radius: 4px;         /* Bordes redondeados */
+    cursor: pointer;            /* Cursor en forma de mano */
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;  /* Color de fondo al pasar el ratón */
+}
+
+label {
+    font-size: 14px;       /* Tamaño de fuente */
+    color: #333;           /* Color de texto */
+    margin-bottom: 5px;    /* Espacio debajo del label */
+    display: block;    /* Mostrar el label como bloque para alinearlo correctamente */
+    font-style: italic;
+}

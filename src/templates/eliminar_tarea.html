@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Tarea</title>
+    <link rel="stylesheet" href="/static/styles_eliminar.css">
+</head>
+<body>
+    <h1>Eliminar Tarea</h1>
+    <form id="delete-task-form">
+        <label for="task">Nombre de la tarea a eliminar:</label><br>
+        <input type="text" id="task" name="task" required><br><br>
+
+        <button type="submit">Eliminar Tarea</button>
+    </form>
+
+    <div id="task-result"></div>
+
+    <h2 class="barra_lateral_cuenta"><a href="https://proyect-task-manager2.onrender.com/users/me/page">Cuenta<span id="UsernameTitle"></span></a></h2>
+
+    <p class="barra_lateral_tareas"><a href="https://proyect-task-manager2.onrender.com/tareas/page">Mis Tareas</a></p>
+
+    <p class="barra_lateral_tarea"><a href="https://proyect-task-manager2.onrender.com/tarea/page">Buscar Tarea</a></p>
+
+    <p class="barra_lateral_crear_tarea"><a href="https://proyect-task-manager2.onrender.com/crear_tarea/page">Crear Tarea</a></p>
+
+    <p class="barra_lateral_actualizar_tarea"><a href="https://proyect-task-manager2.onrender.com/actualizar_tarea/page">Actualizar Tarea</a></p>
+
+    <script>
+        const form = document.getElementById("delete-task-form");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();  // Evitar que el formulario recargue la página
+
+            const taskName = document.getElementById("task").value;
+
+            // Obtener el token almacenado en localStorage
+            const token = localStorage.getItem("token");
+
+            // Si no hay token, redirigir al login
+            if (!token) {
+                alert("No estás autenticado. Redirigiendo al login.");
+                window.location.href = "/login";
+            } else {
+                // Hacer la solicitud DELETE a /eliminar_tarea/{task}
+                const response = await fetch(`/eliminar_tarea/${taskName}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": "Bearer " + token,  // Enviar el token JWT en el encabezado
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                const taskResultDiv = document.getElementById("task-result");
+
+                if (response.ok) {
+                    taskResultDiv.innerHTML = `<p>Tarea eliminada exitosamente.</p>`;
+                } else {
+                    const errorData = await response.json();
+                    taskResultDiv.innerHTML = `<p>Error al eliminar la tarea: ${JSON.stringify(errorData)}</p>`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
