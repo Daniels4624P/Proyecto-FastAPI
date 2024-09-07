@@ -84,7 +84,7 @@ async def eliminar_tarea(task: str, current_user: User = Depends(get_current_use
         found = db_tasks.tasks.find_one_and_delete({"task": task})
         if not found:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No se pudo eliminar la tarea")
-    found = db_tasks.tasks.find_one_and_delete({"task": task, "owner": current_user.role})
+    found = db_tasks.tasks.find_one_and_delete({"task": task, "owner": current_user.username})
     if not found:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No se pudo eliminar la tarea")
     return Response(content="Su tarea fue eliminada correctamente")
