@@ -65,13 +65,6 @@
             // Obtener el token almacenado en localStorage
             const token = localStorage.getItem("token");
 
-            // Si no hay token, redirigir al login
-            if (!token) {
-                alert("No estás autenticado. Redirigiendo al login.");
-                window.location.href = "/login";
-                return; // Añadir return para evitar la solicitud si no hay token
-            }
-
             // Hacer la solicitud PUT a /actualizar_tarea/{id}
             const response = await fetch(`/actualizar_tarea/${taskId}`, {
                 method: "PUT",
