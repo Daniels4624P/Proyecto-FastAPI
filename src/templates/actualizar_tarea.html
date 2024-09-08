@@ -19,7 +19,7 @@
         <input type="text" id="description" name="description" required><br><br>
 
         <label for="date_expire">Nueva fecha de expiracion de la tarea:</label><br>
-        <input type="datetime-local" value="2024-09-06T01:41:43" min="2024-09-06T01:41:43" max="2030-09-06T01:41:43" id="date_expire" name="date_expire" required><br><br>
+        <input type="datetime-local" value="2024-09-06T01:41:00" min="2024-09-06T01:41:00" max="2030-09-06T01:41:00" id="date_expire" name="date_expire" required><br><br>
 
         <label for="state">Nuevo estado de la tarea:</label><br>
         <select id="state" name="state" required>
@@ -54,13 +54,6 @@
             const taskDescription = document.getElementById("description").value;
             const taskDate_Expire = document.getElementById("date_expire").value;
             const taskState = document.getElementById("state").value;
-
-            // Agregar ":00" para incluir los segundos
-            if (!taskDate_Expire.includes("T")) {
-                taskDate_Expire += ":00Z";
-            } else if (taskDate_Expire.length === 16) {  // Si tiene formato 'YYYY-MM-DDTHH:MM'
-                taskDate_Expire += ":00Z";
-            }
 
             // Obtener el token almacenado en localStorage
             const token = localStorage.getItem("token");
