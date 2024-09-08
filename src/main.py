@@ -74,11 +74,15 @@ scheduler.add_job(verificar_tareas, 'interval', minutes=1)
 
 @app.on_event("startup")
 async def startup_event():
-    scheduler.start()
+    if not scheduler.running:
+        scheduler.start()
+    else:
+        print("El scheduler ya está en ejecución.")
 
 @app.on_event("shutdown")
 async def shutdown_event():
-    scheduler.shutdown()
+    if scheduler.running:
+        scheduler.shutdown()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
