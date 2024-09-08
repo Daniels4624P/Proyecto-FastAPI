@@ -56,14 +56,14 @@ def verificar_tareas():
         usuario_email = obtener_email_usuario(tarea['owner'])
 
         if usuario_email:
-            if timedelta(days=1) >= diferencia > timedelta(days=0) and not tarea.get("reminder_1d_sent", False):
+            if timedelta(days=1) >= diferencia > timedelta(days=0) and not tarea.get("reminder_1d_sent"):
                 enviar_correo(
                     usuario_email,
                     f"Recordatorio: Tarea '{tarea['task']}' se vence en 1 día",
                     f"Tu tarea '{tarea['task']}' se vence en 24 horas."
                 )
                 db_tasks.tasks.update_one({"_id": tarea["_id"]},{"$set": {"reminder_1d_sent": True}})
-            if timedelta(hours=1) >= diferencia > timedelta(hours=0) and not tarea.get("reminder_1h_sent", False):
+            if timedelta(hours=1) >= diferencia > timedelta(hours=0) and not tarea.get("reminder_1h_sent"):
                 enviar_correo(
                     usuario_email,
                     f"Recordatorio: Tarea '{tarea['task']}' se vence en 1 hora",
