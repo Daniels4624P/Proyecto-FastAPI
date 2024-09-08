@@ -81,6 +81,19 @@ async def startup_event():
     else:
         print("El scheduler ya está en ejecución.")
 
+def reiniciar_scheduler():
+    if scheduler.running:
+        print("Deteniendo el scheduler...")
+        scheduler.shutdown(wait=False)  # Detener el scheduler sin esperar a que terminen los jobs actuales
+        print("Scheduler detenido.")
+    
+    # Iniciar nuevamente el scheduler
+    print("Reiniciando el scheduler...")
+    scheduler.start()
+    print("Scheduler reiniciado.")
+
+reiniciar_scheduler()
+
 @app.on_event("shutdown")
 async def shutdown_event():
     if scheduler.running:
