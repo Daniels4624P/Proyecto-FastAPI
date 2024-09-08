@@ -35,6 +35,8 @@ async def find_user(task: str, current_user: User = Depends(get_current_user)):
 @router.post("/crear_tarea")
 async def crear_tarea(task: Task, current_user: User = Depends(get_current_user)):
     new_task = dict(task)
+    new_task["reminder_1d_sent"] = False
+    new_task["reminder_1h_sent"] = False
     del new_task["id"]
     new_task["owner"] = current_user.username
     existing_task = db_tasks.tasks.find_one({"task": task.task, "owner": current_user.username})
