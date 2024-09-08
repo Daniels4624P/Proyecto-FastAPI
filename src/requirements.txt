@@ -12,4 +12,3 @@ pandas
 pyjwt
 jinja2
 apscheduler
-email
