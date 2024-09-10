@@ -1,7 +1,7 @@
 import asyncio
 from datetime import datetime, timedelta
 from db.db import db_tasks, db_users
-from email_service import send_email
+from routers.email_service import send_email
 
 async def check_tasks_one_day():
     while True:
