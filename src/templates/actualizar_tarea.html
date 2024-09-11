@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Tarea</title>
+    <link rel="stylesheet" href="/static/styles_actualizar.css">
+</head>
+<body>
+    <h2>Actualizar Tarea</h2>
+    <form id="update-task-form">
+
+        <label for="task">Nuevo nombre de la tarea:</label><br>
+        <input type="text" id="task" name="task" required><br><br>
+
+        <label for="description">Nueva descripción de la tarea:</label><br>
+        <input type="text" id="description" name="description"><br><br>
+
+        <label for="date_expire">Nueva fecha de expiración de la tarea:</label><br>
+        <input type="datetime-local" value="2024-09-06T01:41:00" min="2024-09-06T01:41:00" max="2030-09-06T01:41:00" id="date_expire" name="date_expire" required><br><br>
+
+        <label for="state">Nuevo estado de la tarea:</label><br>
+        <select id="state" name="state" required>
+            <option value="pendiente">Pendiente</option>
+            <option value="en progreso">En progreso</option>
+            <option value="completada">Completada</option>
+        </select><br><br>
+
+        <button type="submit">Actualizar Tarea</button>
+    </form>
+
+    <div id="task-result"></div>
+
+    <h2 class="barra_lateral_cuenta"><a href="https://proyecto-fastapi-y9vw.onrender.com/users/me/page">Cuenta<span id="UsernameTitle"></span></a></h2>
+
+    <p class="barra_lateral_tareas"><a href="https://proyecto-fastapi-y9vw.onrender.com/tareas/page">Mis Tareas</a></p>
+
+    <p class="barra_lateral_tarea"><a href="https://proyecto-fastapi-y9vw.onrender.com/tarea/page">Buscar Tarea</a></p>
+
+    <p class="barra_lateral_crear_tarea"><a href="https://proyecto-fastapi-y9vw.onrender.com/crear_tarea/page">Crear Tarea</a></p>
+
+    <script>
+        // Obtener parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const taskName = urlParams.get('task_id'); // Ahora taskName es el nombre de la tarea
+
+        const form = document.getElementById("update-task-form");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const newTaskName = document.getElementById("task").value;
+            const taskDescription = document.getElementById("description").value;
+            const taskDateExpire = document.getElementById("date_expire").value;
+            const taskState = document.getElementById("state").value;
+
+            // Obtener el token almacenado en localStorage
+            const token = localStorage.getItem("token");
+
+            // Hacer la solicitud PUT a /actualizar_tarea/{nombre de la tarea}
+            const response = await fetch(`/actualizar_tarea/${taskName}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": "Bearer " + token,  // Enviar el token JWT en el encabezado
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "task": newTaskName,
+                    "description": taskDescription,
+                    "date_expire": taskDateExpire,
+                    "state": taskState
+                })
+            });
+
+            const taskResultDiv = document.getElementById("task-result");
+
+            if (response.ok) {
+                const data = await response.json();
+                taskResultDiv.innerHTML = `<p>Tarea actualizada exitosamente: ${data.task}</p>`;
+                form.reset(); // Limpiar el formulario después de la actualización exitosa
+            } else {
+                const errorData = await response.json();
+                taskResultDiv.innerHTML = `<p>Error al actualizar la tarea: ${errorData.detail}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
