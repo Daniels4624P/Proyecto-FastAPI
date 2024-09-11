@@ -54,9 +54,9 @@ async def crear_tarea(task: Task, current_user: User = Depends(get_current_user)
     msg.set_content(f'Se pudo crear correctamente su tarea: {tarea["task"]}')
     msg["subject"] = "Creacion de Tarea en su Task Manager"
     msg["to"] = recipient_email
-    user = "gola2010sa@gmail.com"
+    user = "taskmanager61@gmail.com"
     msg["from"] = user
-    password = "yvammjotufcmquai"
+    password = "ftlucrdbiaanpeuz"
     try:
         server = SMTP("smtp.gmail.com", 587)
         server.starttls()
