@@ -159,7 +159,7 @@ def job_2():
         print(f"Error al enviar correo a {user_email}: {e}")
 
 def run_scheduler_2():
-    schedule.every().hour.at(":15").do(job_2)
+    schedule.every().hour.at(":00").do(job_2)
 
     while True:
         schedule.run_pending()
