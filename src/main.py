@@ -56,8 +56,8 @@ async def tareas(request: Request):
 
 smtp_server = "smtp.gmail.com"
 smtp_port = 587
-smtp_username = "gola2010sa@gmail.com"
-smtp_password = "yvammjotufcmquai"
+smtp_username = "taskmanager61@gmail.com"
+smtp_password = "ftlucrdbiaanpeuz"
 
 def job():
     now = datetime.now()
