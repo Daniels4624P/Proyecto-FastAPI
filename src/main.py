@@ -138,28 +138,30 @@ def job_2():
         task = tarea["task"]
         date_expire = tarea["date_expire"]
 
-    user = db_users.users_proyect.find_one({"username": owner_username})
-    if user and "email" in user:
-        user_email = ["email"]
+        user = db_users.users_proyect.find_one({"username": owner_username})
+        if user and "email" in user:
+            user_email = user["email"]
 
-    subject = f"Recordatorio: La tarea '{task}' expira en una hora"
-    body = (f"Hola {owner_username},\n\n"
-        f"La tarea '{task}' expira el {date_expire.strftime('%Y-%m-%d %H:%M:%S')}.\n"
-        "Te recomendamos que tomes acción para completarla o actualizar su estado.\n\n"
-        "Saludos,\nEquipo de Task Manager")
-    msg = MIMEText(body)
-    msg["Subject"] = subject
-    msg["From"] = smtp_username
-    msg["To"] = user_email
+            subject = f"Recordatorio: La tarea '{task}' expira en una hora"
+            body = (f"Hola {owner_username},\n\n"
+                f"La tarea '{task}' expira el {date_expire.strftime('%Y-%m-%d %H:%M:%S')}.\n"
+                "Te recomendamos que tomes acción para completarla o actualizar su estado.\n\n"
+                "Saludos,\nEquipo de Task Manager")
+            msg = MIMEText(body)
+            msg["Subject"] = subject
+            msg["From"] = smtp_username
+            msg["To"] = user_email
 
-    try:
-        server.sendmail(smtp_username,user_email,msg.as_string())
-        print(f"Correo enviado a {user_email} sobre la tarea '{task}'.")
-    except Exception as e:
-        print(f"Error al enviar correo a {user_email}: {e}")
-
+            try:
+                server.sendmail(smtp_username,user_email,msg.as_string())
+                print(f"Correo enviado a {user_email} sobre la tarea '{task}'.")
+            except Exception as e:
+                print(f"Error al enviar correo a {user_email}: {e}")
+        else:
+            print(f"No se encontró el correo electrónico para el usuario {owner_username}.")
+    server.quit()
 def run_scheduler_2():
-    schedule.every().hour.at(":00").do(job_2)
+    schedule.every().hour.at(":39").do(job_2)
 
     while True:
         schedule.run_pending()
