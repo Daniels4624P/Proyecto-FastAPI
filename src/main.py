@@ -54,6 +54,11 @@ async def tareas(request: Request):
 async def tareas(request: Request):
     return templates.TemplateResponse("actualizar_tarea.html", {"request": request})
 
+smtp_server = "smtp.gmail.com"
+smtp_port = 587
+smtp_username = "gola2010sa@gmail.com"
+smtp_password = "yvammjotufcmquai"
+
 def job():
     now = datetime.now()
     one_day_later = now + timedelta(days=1)
@@ -62,11 +67,6 @@ def job():
     end_of_day = start_of_day + timedelta(days=1)
 
     tasks_expiring = db_tasks.tasks.find({"date_expire": {"$gte": start_of_day, "$lt": end_of_day}})
-
-    smtp_server = "smtp.gmail.com"
-    smtp_port = 587
-    smtp_username = "gola2010sa@gmail.com"
-    smtp_password = "yvammjotufcmquai"
 
     server = smtplib.SMTP(smtp_server, smtp_port)
     server.starttls()
