@@ -119,3 +119,58 @@ print("El programa principal sigue ejecutándose.")
 for i in range(10):
     print(f"Realizando otra tarea... {i}")
     time.sleep(2)
+
+def job_2():
+    now = datetime.now()
+    one_hour_later = now + timedelta(hours=1)
+
+    start_of_hour = now
+    end_of_hour = one_hour_later
+
+    tareas = db_tasks.tasks.find({"date_expire": {"$gte": start_of_hour, "$lt": end_of_hour}})
+
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls()
+    server.login(smtp_username, smtp_password)
+
+    for tarea in tareas:
+        owner_username = tarea["owner"]
+        task = tarea["task"]
+        date_expire = tarea["date_expire"]
+
+    user = db_users.users_proyect.find_one({"username": owner_username})
+    if user and "email" in user:
+        user_email = ["email"]
+
+    subject = f"Recordatorio: La tarea '{task}' expira en una hora"
+    body = (f"Hola {owner_username},\n\n"
+        f"La tarea '{task}' expira el {date_expire.strftime('%Y-%m-%d %H:%M:%S')}.\n"
+        "Te recomendamos que tomes acción para completarla o actualizar su estado.\n\n"
+        "Saludos,\nEquipo de Task Manager")
+    msg = MIMEText(body)
+    msg["Subject"] = subject
+    msg["From"] = smtp_username
+    msg["To"] = user_email
+
+    try:
+        server.sendmail(smtp_username,user_email,msg.as_string())
+        print(f"Correo enviado a {user_email} sobre la tarea '{task}'.")
+    except Exception as e:
+        print(f"Error al enviar correo a {user_email}: {e}")
+
+def run_scheduler_2():
+    schedule.every().hour.at(":15").do(job_2)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(60)
+
+scheduler_thread_2 = threading.Thread(target=run_scheduler_2)
+scheduler_thread_2.daemon = True
+scheduler_thread_2.start()
+
+print("El programa principal sigue ejecutandose.")
+
+for i in range(10):
+    print(f"Realizando otra tarea... {i}")
+    time.sleep(2)
