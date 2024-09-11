@@ -12,3 +12,4 @@ pandas
 pyjwt
 jinja2
 aiosmtplib
+schedule
