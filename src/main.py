@@ -165,7 +165,7 @@ def job_2():
             print(f"No se encontró el correo electrónico para el usuario {owner_username}.")
     server.quit()
 def run_scheduler_2():
-    schedule.every().hour.at(":39").do(job_2)
+    schedule.every().hour.at(":00").do(job_2)
 
     while True:
         schedule.run_pending()
