@@ -54,10 +54,6 @@ async def tareas(request: Request):
 async def tareas(request: Request):
     return templates.TemplateResponse("actualizar_tarea.html", {"request": request})
 
-@app.get("/actualizar_contraseña/page")
-async def update_password(request: Request):
-    return templates.TemplateResponse("forgot_password.html", {"request": request})
-
 smtp_server = "smtp.gmail.com"
 smtp_port = 587
 smtp_username = "taskmanager61@gmail.com"
