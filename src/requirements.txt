@@ -1,0 +1,14 @@
+fastapi
+python-jose
+passlib
+pymongo
+python-multipart
+uvicorn
+jose
+pydantic
+datetime
+requests
+pandas
+pyjwt
+jinja2
+aiosmtplib
